@@ -72,7 +72,7 @@ pwd // check the current working directory
 /* Step 2: Copy-paste the last command that shows up on result screen.
    My results window shows this:*/   
 
-cd "/Users/dr.reneestarowicz/Downloads/Stata-Fundamentals-main 3/lessons"
+cd C:/Users/innoc/Documents/GitHub/Stata-Fundamentals/lessons
 
    
 /***
