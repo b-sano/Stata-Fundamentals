@@ -88,7 +88,7 @@ cd C:/Users/innoc/Documents/GitHub/Stata-Fundamentals/lessons
 *Run the command "pwd". Is your working directory set to the proper folder on YOUR computer?
 
 
-*(1) Yes
+*(1) Yes: YES
 *(2) No
 *(3) Don't know
 
@@ -177,11 +177,11 @@ right now. I am continuing to write my longer comment */
 (2) Suspend all 3 lines of code below using one pair of /**/
 */ 
 
-
-des 
+/*
+des // describes data
 sum 
-count
-
+count 
+*/
 
 
 ********************************************************************************
@@ -248,10 +248,10 @@ codebook union  // shows the contents of the variable union
 
 *What information is NOT included in the output of the command "codebook"
 
-*(1) variable type
-*(2) value labels
-*(3) number of observations
-*(4) mean
+*(1) variable type: Included
+*(2) value labels: Included
+*(3) number of observations: NOT INCLUDED
+*(4) mean: NOT INCLUDED
 
 
 
@@ -266,6 +266,7 @@ count // counts the number of observations
 variable: union
 */
 
+count if union==1
 
 * SUMMARIZE * 
 
@@ -303,11 +304,13 @@ sum wage, detail
 * What is the average wage of observations who are married in this sample
 
 sum wage if married==1 
+sum wage if married==0
 
 * Let's use conditional operators to study different demographic groups in our data
 
 sum wage if married==1 // married
 sum wage if collgrad==1 // college graduate
+sum wage if collgrad ==0 // non college graduate
 sum wage if married==1 & collgrad==1 // married graduate
 sum wage if married==1 & collgrad==0 // married non-graduate
 sum wage if married==0 & collgrad==1 // unmarried graduate
@@ -329,13 +332,14 @@ variables: wage married
 (hint: Use the operator "if")
 */
 
+sum wage if married==0 // mean wage for those who are not married = 8.08
 
 /*
 (5) What is the average wage of those who have worked 10 or more years?
 variables: wage tenure
 */
 
-
+sum wage if tenure >=10 // mean wage is 9.02
 
 
 /* 
@@ -343,14 +347,14 @@ variables: wage tenure
 variable: hours
 */
 
-
+sum hours // mean hours 37
 
 
 /*
 (7) What is the average age and age range of this sample? 
 Variable: age
 */
-
+codebook age // range [34,46] average = 39
 
 
 
@@ -359,7 +363,7 @@ Variable: age
 variables: age, married
 */
 
-
+sum age if married == 0 // average age for non-married = 39.
 
 // Let's look at how missing variables can affect results:
 
@@ -380,7 +384,7 @@ variables: age, married
 (1) All 
 (2) E, only
 (3) A, B
-(4) C, D, E
+(4) C, D, E : THIS IS THE CORRECT ONE. B'se it doesn't include missing obs
 (5) B, C, D
 */
 
@@ -415,7 +419,7 @@ tab union collgrad, cell
 (4) tab c_city race, cell
 (5) tab race c_city, cell
 */
-
+tab race c_city, col
 
 
 ** CHALLENGE **
@@ -423,7 +427,11 @@ tab union collgrad, cell
 (9) How many observations in this dataset fall into each race group? 
 Variables: race
 */
+tab race
 
+// 1637 white
+// 583 black
+// other 26
 
 
 
@@ -432,7 +440,7 @@ Variables: race
 Variable: race
 */
 
-
+// 72
 
 
 * TABULATE, SUMMARIZE *
@@ -453,7 +461,7 @@ tab married collgrad, summarize(wage) means
 Variables: industry wage
 */
 
-
+tab industry, summarize (wage) means
 
 
 // do you notice anything strange about the wages here?
@@ -616,7 +624,7 @@ drop hs2 hs3
 (3) recode hours (0/39 = 0) (40/80=1), gen(full_time)
 */
 
-
+// ANSWER 1 would not generate because it would include missing values 
 
 // Let's tabulate our new variable
 tab hs1
@@ -660,7 +668,7 @@ label list hs_vallabel
 (1) br hs
 (2) label list
 (3) label list hs_vallabel
-(4) tab hs
+(4) tab hs : THIS ONE.
 (5) codebook hs
 */
 
@@ -675,6 +683,7 @@ Let's make and label a new variable about college attendance.
 	we used to create hs.
 */
 
+gen somecollege = 0 if age
 
 
 
